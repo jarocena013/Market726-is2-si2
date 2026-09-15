@@ -1,0 +1,67 @@
+
+Zbusinesslogic.BLFacadeImplementation#getPurchasedItems(Ljava/lang/String;)Ljava/util/List;C
+7src\main\java\businesslogic\BLFacadeImplementation.java‡ ‡($"startingBlock*‡
+startingBlock
+‡$ ‡(2…
+‚
+
+† †(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*7
+
+__unknown_file (
+
+emailjava.lang.String[
+Y
+
+‡, ‡(1
+emailjava.lang.String"__annotation*"
+
+__unknown_file (
+
+%3*
+1*Þ
+1
+ˆ ˆ(o
+m
+
+ˆ ˆ(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+‰ ‰(
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerQ
+O
+
+‰ ‰(8
+itemsjava.util.List"__id*"
+
+__unknown_file (
+""o
+m
+
+Š Š(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"'
+
+‹ ‹(
+
+itemsjava.util.List:'
+
+‡% ‡(1
+emailjava.lang.StringB(&
+$businesslogic.BLFacadeImplementationH

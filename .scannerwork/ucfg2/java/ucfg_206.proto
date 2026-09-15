@@ -1,0 +1,93 @@
+
+Pbusinesslogic.BLFacadeImplementation#resolveErreklamazioa(Ljava/lang/Integer;Z)ZC
+7src\main\java\businesslogic\BLFacadeImplementation.javaÊ Ê(2"startingBlock*æ
+startingBlock
+Ê2 Ê(V‹
+ˆ
+
+Ê Ê(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*=
+
+__unknown_file (!
+
+
+saleNumberjava.lang.Integera
+_
+
+Ê; Ê(E
+
+saleNumberjava.lang.Integer"__annotation*"
+
+__unknown_file (
+
+%3|
+z
+
+Ê Ê(
+%4"
+__annotate*)
+
+__unknown_file (
+	WebMethod*/
+
+__unknown_file (
+
+acceptbooleanS
+Q
+
+ÊO Ê(U
+acceptboolean"__annotation*"
+
+__unknown_file (
+
+%4*
+1*Ì
+1
+Ë Ë(o
+m
+
+Ë Ë(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+Ì Ì(
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerH
+F
+
+Ì Ì(I
+resboolean"__id*"
+
+__unknown_file (
+""o
+m
+
+Í Í(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"
+
+Î Î(
+
+resboolean:-
+
+Ê3 Ê(F
+
+saleNumberjava.lang.Integer:
+
+ÊG Ê(U
+acceptbooleanB(&
+$businesslogic.BLFacadeImplementationHX

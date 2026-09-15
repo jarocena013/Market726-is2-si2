@@ -1,0 +1,70 @@
+
+Rbusinesslogic.BLFacadeImplementation#getBasket(Ljava/lang/String;)Ljava/util/List;C
+7src\main\java\businesslogic\BLFacadeImplementation.javaê ê("startingBlock*‘
+startingBlock
+ê ê(2Š
+‡
+
+é é(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*<
+
+__unknown_file ( 
+
+
+buyerEmailjava.lang.String`
+^
+
+ê' ê(1
+
+buyerEmailjava.lang.String"__annotation*"
+
+__unknown_file (
+
+%3*
+1*Ö
+1
+ë ë(o
+m
+
+ë ë(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+ì ì( 
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerM
+K
+
+ì ì(7
+ajava.util.List"__id*"
+
+__unknown_file (
+""o
+m
+
+í í(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"#
+
+î î(
+
+ajava.util.List:,
+
+ê  ê(1
+
+buyerEmailjava.lang.StringB(&
+$businesslogic.BLFacadeImplementationH

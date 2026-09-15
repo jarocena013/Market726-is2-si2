@@ -1,0 +1,7 @@
+organization=jarocena013
+projectKey=jarocena013_market26
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.106008
+dashboardUrl=https://sonarcloud.io/dashboard?id=jarocena013_market26
+ceTaskId=AaCkmRJ_Siutd9JcEJ5g
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AaCkmRJ_Siutd9JcEJ5g

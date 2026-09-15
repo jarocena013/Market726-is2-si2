@@ -1,0 +1,57 @@
+
+Qbusinesslogic.BLFacadeImplementation#getSales(Ljava/lang/String;)Ljava/util/List;A
+7src\main\java\businesslogic\BLFacadeImplementation.java= =("startingBlock*˛
+startingBlock= =((Å
+
+< <(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*6
+
+__unknown_file (
+
+descjava.lang.StringX
+V
+=# =('
+descjava.lang.String"__annotation*"
+
+__unknown_file (
+
+%3*
+1*“
+1> >(m
+k
+> >(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerm
+k
+? ?(
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerO
+M
+? ?(-
+ridesjava.util.List"__id*"
+
+__unknown_file (
+""m
+k
+@ @(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"%
+A A(
+
+ridesjava.util.List:$
+= =('
+descjava.lang.StringB(&
+$businesslogic.BLFacadeImplementationH

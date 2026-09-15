@@ -1,0 +1,90 @@
+
+]businesslogic.BLFacadeImplementation#acceptEskaintza(Ljava/lang/Integer;Ljava/lang/Integer;)ZC
+7src\main\java\businesslogic\BLFacadeImplementation.javaë ë(""startingBlock*Ñ
+startingBlock
+ë" ë(Jä
+á
+
+ê ê(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*<
+
+__unknown_file ( 
+
+	eskaeraIdjava.lang.Integer`
+^
+
+ë+ ë(4
+	eskaeraIdjava.lang.Integer"__annotation*"
+
+__unknown_file (
+
+%3å
+â
+
+ê ê(
+%4"
+__annotate*)
+
+__unknown_file (
+	WebMethod*>
+
+__unknown_file ("
+ 
+eskaintzaIdjava.lang.Integerb
+`
+
+ë> ë(I 
+eskaintzaIdjava.lang.Integer"__annotation*"
+
+__unknown_file (
+
+%4*
+1*‘
+1
+í í(o
+m
+
+í í(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+ì ì(#
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerL
+J
+
+ì ì(L
+successboolean"__id*"
+
+__unknown_file (
+""o
+m
+
+î î(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager""
+
+ï ï(
+
+successboolean:,
+
+ë# ë(5
+	eskaeraIdjava.lang.Integer:.
+
+ë6 ë(I 
+eskaintzaIdjava.lang.IntegerB(&
+$businesslogic.BLFacadeImplementationHX

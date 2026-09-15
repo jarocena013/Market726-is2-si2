@@ -1,0 +1,119 @@
+
+obusinesslogic.BLFacadeImplementation#addErreklamazioa(Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;)ZC
+7src\main\java\businesslogic\BLFacadeImplementation.java¾ ¾(."startingBlock*é
+startingBlock
+¾. ¾(d‹
+ˆ
+
+¾ ¾(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*=
+
+__unknown_file (!
+
+
+saleNumberjava.lang.Integera
+_
+
+¾7 ¾(A
+
+saleNumberjava.lang.Integer"__annotation*"
+
+__unknown_file (
+
+%3†
+ƒ
+
+¾ ¾(
+%4"
+__annotate*)
+
+__unknown_file (
+	WebMethod*8
+
+__unknown_file (
+
+reasonjava.lang.String\
+Z
+
+¾J ¾(P
+reasonjava.lang.String"__annotation*"
+
+__unknown_file (
+
+%4Š
+‡
+
+¾ ¾(
+%5"
+__annotate*)
+
+__unknown_file (
+	WebMethod*<
+
+__unknown_file ( 
+
+
+buyerEmailjava.lang.String`
+^
+
+¾Y ¾(c
+
+buyerEmailjava.lang.String"__annotation*"
+
+__unknown_file (
+
+%5*
+1*Ì
+1
+¿ ¿(o
+m
+
+¿ ¿(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+À À(
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerH
+F
+
+À À(Q
+resboolean"__id*"
+
+__unknown_file (
+""o
+m
+
+Á Á(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"
+
+Â Â(
+
+resboolean:-
+
+¾/ ¾(B
+
+saleNumberjava.lang.Integer:(
+
+¾C ¾(Q
+reasonjava.lang.String:,
+
+¾R ¾(c
+
+buyerEmailjava.lang.StringB(&
+$businesslogic.BLFacadeImplementationHX

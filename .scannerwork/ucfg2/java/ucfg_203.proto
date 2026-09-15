@@ -1,0 +1,116 @@
+
+Zbusinesslogic.BLFacadeImplementation#resolveReport(Ljava/lang/Integer;Ldomain/Salaketa;Z)ZC
+7src\main\java\businesslogic\BLFacadeImplementation.java· ·( "startingBlock*Æ
+startingBlock
+·  ·(S‹
+ˆ
+
+¶ ¶(
+%3"
+__annotate*)
+
+__unknown_file (
+	WebMethod*=
+
+__unknown_file (!
+
+
+saleNumberjava.lang.Integera
+_
+
+·) ·(3
+
+saleNumberjava.lang.Integer"__annotation*"
+
+__unknown_file (
+
+%3
+
+
+¶ ¶(
+%4"
+__annotate*)
+
+__unknown_file (
+	WebMethod*4
+
+__unknown_file (
+
+saldomain.SalaketaX
+V
+
+·> ·(A
+saldomain.Salaketa"__annotation*"
+
+__unknown_file (
+
+%4}
+{
+
+¶ ¶(
+%5"
+__annotate*)
+
+__unknown_file (
+	WebMethod*0
+
+__unknown_file (
+
+aceptarbooleanT
+R
+
+·K ·(R
+aceptarboolean"__annotation*"
+
+__unknown_file (
+
+%5*
+1*Ì
+1
+¸ ¸(o
+m
+
+¸ ¸(
+%0"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagero
+m
+
+¹ ¹(
+%1"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManagerH
+F
+
+¹ ¹(F
+repboolean"__id*"
+
+__unknown_file (
+""o
+m
+
+º º(
+%2"__id*S
+
+__unknown_file (7*5&
+$businesslogic.BLFacadeImplementation"
+	dbManager"
+
+» »(
+
+repboolean:-
+
+·! ·(4
+
+saleNumberjava.lang.Integer:$
+
+·5 ·(B
+saldomain.Salaketa: 
+
+·C ·(R
+aceptarbooleanB(&
+$businesslogic.BLFacadeImplementationHX
