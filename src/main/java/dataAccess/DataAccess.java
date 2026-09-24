@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,14 +52,17 @@ public class DataAccess {
         if (c.isDatabaseInitialized()) {
             String fileName=c.getDbFilename();
 
-            File fileToDelete= new File(fileName);
-            if(fileToDelete.delete()){
-                File fileToDeleteTemp= new File(fileName+"$");
-                fileToDeleteTemp.delete();
+            try {
+                Files.delete(Paths.get(fileName));
+
+                File fileToDeleteTemp = new File(fileName + "$");
+                Files.delete(Paths.get(fileName + "$"));
+
                 System.out.println("File deleted");
-             } else {
-                 System.out.println("Operation failed");
-                }
+
+            } catch (IOException e) {
+                System.out.println("Error deleting file: " + e.getMessage());
+            }
         }
         open();
         if (c.isDatabaseInitialized()) 
@@ -78,10 +83,11 @@ public class DataAccess {
     public void initializeDB(){
         db.getTransaction().begin();
         try {        
+        	String pasahitz="aurrera";
             //Create sellers 
-            Seller seller1=new Seller("seller1@gmail.com","Aitor Fernandez","aurrera");
-            Seller seller2=new Seller("seller22@gmail.com","Ane Gaztañaga","aurrera");
-            Seller seller3=new Seller("seller3@gmail.com","Test Seller","aurrera");
+            Seller seller1=new Seller("seller1@gmail.com","Aitor Fernandez",pasahitz);
+            Seller seller2=new Seller("seller22@gmail.com","Ane Gaztañaga",pasahitz);
+            Seller seller3=new Seller("seller3@gmail.com","Test Seller",pasahitz);
 
             Admin admin = new Admin("admin@gmail.com","Admin","admin123");
             db.persist(admin);
@@ -193,7 +199,7 @@ public class DataAccess {
         try {
              targetImg = rescale(ImageIO.read(file));
         } catch (IOException ex) {
-            //Logger.getLogger(MainAppFrame.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return targetImg;
     }

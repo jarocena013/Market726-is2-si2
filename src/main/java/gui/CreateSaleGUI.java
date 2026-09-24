@@ -28,10 +28,10 @@ import configuration.UtilDate;
 public class CreateSaleGUI extends JFrame {
 	
     File targetFile;
-    BufferedImage targetImg;
+    transient BufferedImage targetImg;
     String encodedfile = null;
 
-    public JPanel panel_1;
+    public JPanel panel1;
     private static final int baseSize = 128;
 	private static final String basePath="src/main/resources/images/";
 
@@ -122,7 +122,10 @@ public class CreateSaleGUI extends JFrame {
 		jLabelError.setForeground(Color.red);
 		
 	    status=Utils.getStatus();
-		for(String s:status) statusOptions.addElement(s);
+	    if(status!=null) {
+	    	for(String s:status) statusOptions.addElement(s);
+	    }
+		
 
 		this.getContentPane().add(jLabelMsg, null);
 		this.getContentPane().add(jLabelError, null);
@@ -168,8 +171,8 @@ public class CreateSaleGUI extends JFrame {
 
 		        if (result == JFileChooser.APPROVE_OPTION) {
 		            targetFile = fileChooser.getSelectedFile();
-		            panel_1.removeAll();
-		            panel_1.repaint();
+		            panel1.removeAll();
+		            panel1.repaint();
 
 		            try {
 		                targetImg = rescale(ImageIO.read(targetFile));
@@ -178,8 +181,8 @@ public class CreateSaleGUI extends JFrame {
 		                //Logger.getLogger(MainAppFrame.class.getName()).log(Level.SEVERE, null, ex);
 		            }
 		            
-		            panel_1.setLayout(new BorderLayout(0, 0));
-		            panel_1.add(new JLabel(new ImageIcon(targetImg))); 
+		            panel1.setLayout(new BorderLayout(0, 0));
+		            panel1.add(new JLabel(new ImageIcon(targetImg))); 
 		            setVisible(true);
 
 		            }
@@ -188,9 +191,9 @@ public class CreateSaleGUI extends JFrame {
 		btnNewButton.setBounds(186, 138, 162, 29);
 		getContentPane().add(btnNewButton);
 		
-		panel_1 = new JPanel();
-		panel_1.setBounds(461, 209, 124, 86);
-		getContentPane().add(panel_1);
+		panel1 = new JPanel();
+		panel1.setBounds(461, 209, 124, 86);
+		getContentPane().add(panel1);
 		
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -291,9 +294,7 @@ public class CreateSaleGUI extends JFrame {
             fileInputStreamReader.read(bytes);
             encodedfile=new String(Base64.getEncoder().encode(bytes));
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
         return encodedfile;
