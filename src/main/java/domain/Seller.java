@@ -118,8 +118,9 @@ public class Seller implements Serializable {
 	    this.purchasedSales.add(sale);
 	}
 
-	public void removeSale(Sale sale) {
-	    this.sales.remove(sale);
+	public boolean removeSale(Sale sale) {
+	    return this.sales.remove(sale);
+	    
 	}
 
 	public float getMoney() {

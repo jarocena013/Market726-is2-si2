@@ -31,6 +31,7 @@ import domain.Salaketa;
 import domain.Sale;
 import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
+import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;
 
 /**
@@ -111,7 +112,7 @@ public class DataAccess {
         }
     }
     
-    public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
+    public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException, ParamNullException {
         System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
         try {
             if(pubDate.before(UtilDate.trim(new Date()))) {
