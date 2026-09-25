@@ -120,19 +120,23 @@ public class DataAccess {
     
     public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException, ParamNullException {
         System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
+        if (title==null || description==null || pubDate==null || sellerEmail==null) {
+        	throw new ParamNullException("Param null");
+        }
+			
         try {
             if(pubDate.before(UtilDate.trim(new Date()))) {
-                throw new MustBeLaterThanTodayException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.ErrorSaleMustBeLaterThanToday"));
+                throw new MustBeLaterThanTodayException("later than today");
             }
             if (file==null)
-                throw new FileNotUploadedException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.ErrorFileNotUploadedException"));
+                throw new FileNotUploadedException("file not find");
 
             db.getTransaction().begin();
             
             Seller seller = db.find(Seller.class, sellerEmail);
             if (seller.doesSaleExist(title)) {
                 db.getTransaction().commit();
-                throw new SaleAlreadyExistException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.SaleAlreadyExist"));
+                throw new SaleAlreadyExistException("sale already exist");
             }
 
             Sale sale = seller.addSale(title, description, status, price, pubDate, file);
@@ -285,6 +289,7 @@ public class DataAccess {
             return false;
         }
     }
+    
     
     public List<Sale> getPurchasedItems(String email) {
         System.out.println(">> DataAccess: getPurchasedItems=> user= " + email);

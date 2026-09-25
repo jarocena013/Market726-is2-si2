@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertNotNull;
 
+
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import dataAccess.DataAccess;
 import domain.Sale;
 import domain.Seller;
+import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;
