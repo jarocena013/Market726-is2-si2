@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import configuration.ConfigXML;
+import gui.MainGUI;
 
 import javax.swing.JTextArea;
 import javax.xml.ws.Endpoint;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.util.logging.Logger;
 /**
  * It runs the business logic server as a separate process.
  */
@@ -36,6 +38,7 @@ public class BusinessLogicServer extends JDialog {
 	JTextArea textArea;
 	BLFacade server;
 	String service;
+	private static final Logger LOGGER = Logger.getLogger(MainGUI.class.getName());
 
 	public static void main(String[] args) {
 		try {
@@ -102,8 +105,11 @@ public class BusinessLogicServer extends JDialog {
 			try{
 				
 				if (!c.isDatabaseLocal()) {
-					System.out.println("\nWARNING: Please be sure ObjectdbManagerServer is launched\n           in machine: "+c.getDatabaseNode()+" port: "+c.getDatabasePort()+"\n");	
-				}
+					    LOGGER.warning(
+					        "Please be sure ObjectdbManagerServer is launched in machine: " 
+					        + c.getDatabaseNode() + " port: " + c.getDatabasePort()
+					    );
+					}				
 				
 				service= "http://"+c.getBusinessLogicNode() +":"+ c.getBusinessLogicPort()+"/ws/"+c.getBusinessLogicName();
 				
@@ -123,7 +129,7 @@ public class BusinessLogicServer extends JDialog {
 			
 		  } catch (Exception e) {
 			textArea.append(e.toString());
-		  }
+	  }
 
 	  }
 	}

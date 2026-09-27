@@ -16,7 +16,10 @@ public class Utils {
 		return null;
 	}
 	public static String getStatus(int t) {
-		ArrayList<String> status=getStatus();
-		return status.get(t);
+		ArrayList<String> status = getStatus();
+	    if (status != null && t >= 0 && t < status.size()) {
+	        return status.get(t);
+	    }
+	    return "";
 	}
 }

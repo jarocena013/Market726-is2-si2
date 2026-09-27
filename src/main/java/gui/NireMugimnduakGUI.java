@@ -124,7 +124,12 @@ public class NireMugimnduakGUI extends JFrame {
 						JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("NireErosketakGUI.ErrorConfirm"));
 					}
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(
+					        null, 
+					        ResourceBundle.getBundle("Etiquetas").getString("NireErosketakGUI.ErrorConfirm"), 
+					        "Error", 
+					        JOptionPane.ERROR_MESSAGE
+					    );
 				}
 			}
 		});

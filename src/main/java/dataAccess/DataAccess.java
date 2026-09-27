@@ -42,9 +42,9 @@ import exceptions.SaleAlreadyExistException;
 public class DataAccess {
     private EntityManager db;
     private EntityManagerFactory emf;
-    private static final int baseSize = 160;
+    private static final int BASE_SIZE = 160;
 
-    private static final String basePath="src/main/resources/images/";
+    private static final String BASE_PATH="src/main/resources/images/";
 
     ConfigXML c=ConfigXML.getInstance();
 
@@ -198,7 +198,7 @@ public class DataAccess {
     }
 
     public BufferedImage getFile(String fileName) {
-        File file=new File(basePath+fileName);
+        File file=new File(BASE_PATH+fileName);
         BufferedImage targetImg=null;
         try {
              targetImg = rescale(ImageIO.read(file));
@@ -210,9 +210,9 @@ public class DataAccess {
     
     public BufferedImage rescale(BufferedImage originalImage) {
         System.out.println("rescale "+originalImage);
-        BufferedImage resizedImage = new BufferedImage(baseSize, baseSize, BufferedImage.TYPE_INT_RGB);
+        BufferedImage resizedImage = new BufferedImage(BASE_SIZE, BASE_SIZE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, baseSize, baseSize, null);
+        g.drawImage(originalImage, 0, 0, BASE_SIZE, BASE_SIZE, null);
         g.dispose();
         return resizedImage;
     }

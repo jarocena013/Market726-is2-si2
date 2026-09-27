@@ -1,7 +1,6 @@
+package test;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -9,27 +8,39 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import dataAccess.DataAccess;
 import domain.Sale;
 import domain.Seller;
-import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;
 
+public class CreateSaleMockWhiteTest {
+	
+	static DataAccess sut;
+	
+	protected MockedStatic<Persistence> persistenceMock;
 
-public class CreateSaleBDWhiteTest {
-
-	 //sut:system under test
-	 static DataAccess sut=new DataAccess();
-	 
-	 //additional operations needed to execute the test 
-	 static TestDataAccess testDA=new TestDataAccess();
-
-	@SuppressWarnings("unused")
+	@Mock
+	protected  EntityManagerFactory entityManagerFactory;
+	@Mock
+	protected  EntityManager db;
+	@Mock
+    protected  EntityTransaction  et;
+	
 	private  Seller seller; 
 	private  String sellerMail;
 	private  String sellerName;
@@ -39,12 +50,22 @@ public class CreateSaleBDWhiteTest {
 	private  int status;
 	private  float price;
 	private  Date pubDate;
-	
+
 	@Before
-    public  void defaultValues() {
+    public  void init() {
+		MockitoAnnotations.openMocks(this);
+        persistenceMock = Mockito.mockStatic(Persistence.class);
+		persistenceMock.when(() -> Persistence.createEntityManagerFactory(Mockito.any()))
+        .thenReturn(entityManagerFactory);
+        
+        Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
+		Mockito.doReturn(et).when(db).getTransaction();
+	    sut=new DataAccess(db);
+	    
 	    sellerMail="sellerTest@ehu.eus";
 		sellerName="Seller Test";
 		sellerPass="pass";
+		seller=new Seller(sellerMail,sellerName,sellerPass);
 		title="futbol baloia";
 		description="Used one hour";
 		status=0;
@@ -57,7 +78,15 @@ public class CreateSaleBDWhiteTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	    
+        Mockito.when(db.find(Seller.class, seller.getEmail())).thenReturn(seller);
     }
+	@After
+    public  void tearDown() {
+		persistenceMock.close();
+    }
+	
+	
 	@Test
 	//sut.createSale:  Some of the parameters are null
 	public void test1() {
@@ -83,23 +112,18 @@ public class CreateSaleBDWhiteTest {
 			} 
 	}
 	@Test
-	//sut.createSale:  The seller must be in the DB (try captures null)
+	//sut.createSale:  The seller must be in the DB 
 	public void test2() {
 		sellerMail="sellerFake";
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			System.out.println(title+ " "+description+" "+status+ " "+ price + " "+ pubDate +" "+sellerMail);
 			Sale s=sut.createSale(title, description, status, price, pubDate, sellerMail, null);
 			sut.close();
 			//sale is not created
-			assertNull(s);
+			assertTrue(s==null);
 			
 			//sale is not in DB
-			testDA.open();
-			boolean exist=testDA.existSale(sellerMail,description);
-			assertTrue(!exist);
-			testDA.close();
 			
 			} catch (ParamNullException | SaleAlreadyExistException  | MustBeLaterThanTodayException e ) { 
 		// if the program goes to this point fail  
@@ -111,7 +135,6 @@ public class CreateSaleBDWhiteTest {
 				fail();
 			} 
 	}
-	
 	@Test
 	//sut.createSale:  pubDate must be later that today 
 	public void test3() {
@@ -143,16 +166,15 @@ public class CreateSaleBDWhiteTest {
 				fail();
 			} 
 	}
-	
 	@Test
-	//sut.createSale:  The Seller("sellerTest@ehu.eus","Seller Test") HAS one sale with that title and the same "title". sale is created. 
+	//sut.createSale:  The Seller("sellerTest1@ehu.eus","Seller Test 1") HAS one sale with that title and the same "title" sale is created. 
 
 	public void test4() {
-		
-		
-		testDA.open();
-		testDA.addSellerWithSale( sellerMail, sellerName, sellerPass, title, description, status, price, pubDate, null);
-		testDA.close();
+		sellerMail="sellerTest1@ehu.eus";
+		Seller s1=new Seller(sellerMail,"Seller Test 1","Test1");
+		s1.addSale(title, description, status, price, pubDate, null);
+        Mockito.when(db.find(Seller.class, s1.getEmail())).thenReturn(s1);
+
 		try {	
 			//verify the results
 			sut.open();
@@ -164,48 +186,36 @@ public class CreateSaleBDWhiteTest {
 			// if the program goes to this point true  
 				assertTrue(true);
 
-
 			} catch (ParamNullException  | MustBeLaterThanTodayException e ) { 
 			// if the program goes to this point fail  
 				e.printStackTrace();
 			    System.out.println("Error: " + e.getMessage());
 				fail();
 
-
 			}catch (Exception e) {
 				fail();
-			} finally {   
-				testDA.open();
-				testDA.removeSeller(sellerMail);
-				testDA.close();
-		    }
+			}  		
 	}
-
-
 	@Test
-	//sut.createSale:  The Seller(seller1@ehu.eus) HAS NOT one sale with "title" 
-	// and the sale must be created in DB
-	//The test supposes that the "Seller Test" does not exist in the DB before the test
+	//sut.createSale:  The Seller("sellerTest@ehu.eus","Seller Test") HAS  NOT one sale with that "title"" . 
+	// and the Sale must be created in DB
+	//The test supposes that the "Seller Test" does not exist in the DB
 
-	public void test5() {		
+	public void test5() {
 		
-		testDA.open();
-		testDA.createSeller(sellerMail,sellerName,sellerPass);
-		testDA.close();
+		
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
 			Sale sale=sut.createSale(title, description, status, price, pubDate, sellerMail, null);
 			sut.close();			
-			
 			//verify the results
 			assertNotNull(sale);
+			assertNotNull(sale);
+			assertEquals(sale.getTitle(),title);
+			assertEquals(sale.getDescription(),description);
+			assertEquals(sale.getStatus(),status);
 			
-			//sale is in DB
-			testDA.open();
-			boolean exist=testDA.existSale(sellerMail,title);
-			assertTrue(exist);
-			testDA.close();
 			
 			} catch (ParamNullException | SaleAlreadyExistException  | MustBeLaterThanTodayException e ) { 
 			// if the program goes to this point fail  
@@ -216,11 +226,6 @@ public class CreateSaleBDWhiteTest {
 
 			} catch (Exception e) {
 				fail();
-			} finally {   
-				testDA.open();
-				testDA.removeSeller(sellerMail);
-				testDA.close();
-		    }
-	} 
-	
+			} 
+	}
 }
