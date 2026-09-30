@@ -29,7 +29,7 @@ import java.io.IOException;
  */
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
-	 private static final int BASE_SIZE = 160;
+	 
 	 private static final Logger LOGGER =
 		        Logger.getLogger(BLFacadeImplementation.class.getName());
 

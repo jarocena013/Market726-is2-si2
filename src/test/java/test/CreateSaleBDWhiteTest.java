@@ -16,7 +16,7 @@ import org.junit.Test;
 import dataAccess.DataAccess;
 import domain.Sale;
 import domain.Seller;
-import exceptions.FileNotUploadedException;
+
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;

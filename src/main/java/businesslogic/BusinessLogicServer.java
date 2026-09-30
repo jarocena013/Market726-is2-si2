@@ -38,7 +38,7 @@ public class BusinessLogicServer extends JDialog {
 	JTextArea textArea;
 	BLFacade server;
 	String service;
-	private static final Logger LOGGER = Logger.getLogger(MainGUI.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(BusinessLogicServer.class.getName());
 
 	public static void main(String[] args) {
 		try {

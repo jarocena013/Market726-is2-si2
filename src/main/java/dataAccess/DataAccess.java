@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.jws.WebMethod;
@@ -19,6 +21,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+
+
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
@@ -43,6 +47,7 @@ public class DataAccess {
     private EntityManager db;
     private EntityManagerFactory emf;
     private static final int BASE_SIZE = 160;
+    private static final Logger LOGGER = Logger.getLogger(DataAccess.class.getName());
 
     private static final String BASE_PATH="src/main/resources/images/";
 
@@ -58,10 +63,10 @@ public class DataAccess {
                 File fileToDeleteTemp = new File(fileName + "$");
                 Files.delete(Paths.get(fileName + "$"));
 
-                System.out.println("File deleted");
+                LOGGER.info("File deleted");
 
             } catch (IOException e) {
-                System.out.println("Error deleting file: " + e.getMessage());
+                LOGGER.log(Level.WARNING,"Error deleting file: " + e);
             }
         }
         open();
@@ -111,7 +116,7 @@ public class DataAccess {
             db.persist(seller3);
     
             db.getTransaction().commit();
-            System.out.println("Db initialized");
+            LOGGER.info("Db initialized");
         }
         catch (Exception e){
             e.printStackTrace();
@@ -143,9 +148,9 @@ public class DataAccess {
             
             db.persist(seller); 
             db.getTransaction().commit();
-            System.out.println("sale stored "+sale+ " "+seller);
+            LOGGER.info("sale stored "+sale+ " "+seller);
 
-            System.out.println("hasta aqui");
+            LOGGER.info("hasta aqui");
             return sale;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -194,7 +199,7 @@ public class DataAccess {
             emf = Persistence.createEntityManagerFactory("objectdb://"+c.getDatabaseNode()+":"+c.getDatabasePort()+"/"+fileName, properties);
             db = emf.createEntityManager();
         }
-        System.out.println("DataAccess opened => isDatabaseLocal: "+c.isDatabaseLocal());
+        LOGGER.info("DataAccess opened => isDatabaseLocal: "+c.isDatabaseLocal());
     }
 
     public BufferedImage getFile(String fileName) {
@@ -284,7 +289,7 @@ public class DataAccess {
             db.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error buying product",e);
             db.getTransaction().rollback();
             return false;
         }
