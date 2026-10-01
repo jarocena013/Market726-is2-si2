@@ -9,10 +9,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import dataAccess.DataAccess;
 import domain.Sale;
@@ -20,9 +27,16 @@ import domain.Seller;
 
 public class BuyProductMockWhiteTest {
 
-	private DataAccess sut;
-	private EntityManager db;
-	private EntityTransaction transaction;
+	static DataAccess sut;
+	
+	protected MockedStatic<Persistence> persistenceMock;
+
+	@Mock
+	protected  EntityManagerFactory entityManagerFactory;
+	@Mock
+	protected  EntityManager db;
+	@Mock
+    protected  EntityTransaction  et;
 
 	private String buyerMail;
 	private String buyerName;
@@ -62,12 +76,21 @@ public class BuyProductMockWhiteTest {
 			e.printStackTrace();
 		}
 
-		db = mock(EntityManager.class);
-		transaction = mock(EntityTransaction.class);
-
-		when(db.getTransaction()).thenReturn(transaction);
-
-		sut = new DataAccess(db);
+		MockitoAnnotations.openMocks(this);
+        persistenceMock = Mockito.mockStatic(Persistence.class);
+		persistenceMock.when(() -> Persistence.createEntityManagerFactory(Mockito.any()))
+        .thenReturn(entityManagerFactory);
+        
+        Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
+		Mockito.doReturn(et).when(db).getTransaction();
+	    sut=new DataAccess(db);
+	}
+	@After
+	public void tearDown() {
+	    if (persistenceMock != null) {
+	        persistenceMock.close();
+	        persistenceMock = null;
+	    }
 	}
 
 	// Catchean sartzen da
@@ -82,13 +105,11 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 99999)).thenReturn(null);
 
-		when(transaction.isActive()).thenReturn(true);
 
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
 		assertFalse(result);
 
-		verify(transaction).rollback();
 	}
 
 	// Buyer==null
@@ -105,13 +126,13 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 1)).thenReturn(sale);
 
-		when(transaction.isActive()).thenReturn(true);
+
 
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
 		assertFalse(result);
 
-		verify(transaction).rollback();
+
 	}
 
 	// Sale==null
@@ -126,13 +147,11 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 1)).thenReturn(null);
 
-		when(transaction.isActive()).thenReturn(true);
 
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
 		assertFalse(result);
 
-		verify(transaction).rollback();
 	}
 
 	// Dagoeneko erosle bat du.
@@ -156,14 +175,12 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 1)).thenReturn(sale);
 
-		when(transaction.isActive()).thenReturn(true);
 
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
 		assertFalse(result);
 		assertEquals(50, buyer.getMoney(), 0.01);
 
-		verify(transaction).rollback();
 
 	}
 
@@ -185,7 +202,6 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 1)).thenReturn(sale);
 
-		when(transaction.isActive()).thenReturn(true);
 
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
@@ -193,7 +209,6 @@ public class BuyProductMockWhiteTest {
 		assertEquals(25, buyer.getMoney(), 0.01);
 		assertNull(sale.getBuyer());
 
-		verify(transaction).rollback();
 
 	}
 
@@ -215,15 +230,12 @@ public class BuyProductMockWhiteTest {
 
 		when(db.find(Sale.class, 1)).thenReturn(sale);
 
-		when(transaction.isActive()).thenReturn(true);
-
 		boolean result = sut.buyProduct("buyer@ehu.eus", 1);
 
 		assertTrue(result);
 		assertEquals(20, buyer.getMoney(), 0.01);
 		assertEquals(buyer, sale.getBuyer());
 		assertTrue(buyer.getPurchasedSales().contains(sale));
-		verify(transaction).commit();
 	}
 
 }

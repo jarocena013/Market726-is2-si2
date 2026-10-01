@@ -8,10 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import dataAccess.DataAccess;
 import domain.Sale;
@@ -19,9 +26,16 @@ import domain.Seller;
 
 public class BuyProductMockBlackTest {
 
-	private DataAccess sut;
-	private EntityManager db;
-	private EntityTransaction transaction;
+	static DataAccess sut;
+	
+	protected MockedStatic<Persistence> persistenceMock;
+
+	@Mock
+	protected  EntityManagerFactory entityManagerFactory;
+	@Mock
+	protected  EntityManager db;
+	@Mock
+    protected  EntityTransaction  et;
 
 	private String buyerMail;
 	private String buyerName;
@@ -61,12 +75,21 @@ public class BuyProductMockBlackTest {
 			e.printStackTrace();
 		}
 
-		db = mock(EntityManager.class);
-		transaction = mock(EntityTransaction.class);
-
-		when(db.getTransaction()).thenReturn(transaction);
-
-		sut = new DataAccess(db);
+		MockitoAnnotations.openMocks(this);
+        persistenceMock = Mockito.mockStatic(Persistence.class);
+		persistenceMock.when(() -> Persistence.createEntityManagerFactory(Mockito.any()))
+        .thenReturn(entityManagerFactory);
+        
+        Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
+		Mockito.doReturn(et).when(db).getTransaction();
+	    sut=new DataAccess(db);
+	}
+	@After
+	public void tearDown() {
+	    if (persistenceMock != null) {
+	        persistenceMock.close();
+	        persistenceMock = null;
+	    }
 	}
 
 	/*
