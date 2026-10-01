@@ -134,6 +134,52 @@ public class TestDataAccess {
 			return false;
 
 		}
+		public void updateSeller(Seller seller) {
+
+		    db.getTransaction().begin();
+
+		    db.merge(seller);
+
+		    db.getTransaction().commit();
+		}
+		public void updateSale(Sale sale) {
+
+		    db.getTransaction().begin();
+
+		    db.merge(sale);
+
+		    db.getTransaction().commit();
+		}
+		public Seller findSeller(String email) {
+		    return db.find(Seller.class, email);
+		}
+		public Sale findSale(Integer saleNumber) {
+		    return db.find(Sale.class, saleNumber);
+		}
+		public Seller createSellerWithMoney(String email, String name, String pass, float money) {
+
+		    Seller seller = null;
+
+		    db.getTransaction().begin();
+
+		    try {
+		        seller = new Seller(email, name, pass);
+		        seller.setMoney(money);
+
+		        db.persist(seller);
+
+		        db.getTransaction().commit();
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+
+		        if (db.getTransaction().isActive()) {
+		            db.getTransaction().rollback();
+		        }
+		    }
+
+		    return seller;
+		}
 
 		
 }
