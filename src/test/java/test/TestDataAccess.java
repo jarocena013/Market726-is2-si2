@@ -4,6 +4,7 @@ package test;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -134,6 +135,39 @@ public class TestDataAccess {
 			return false;
 
 		}
+		//addToBasket
+		public Integer createSale(String email, String title) {
+		    Seller s = addSellerWithSale(email, "name", "pass", title, "desc",
+		                                 1, 10f, new Date(), null);
+		    return s.getSales().stream()
+		            .filter(x -> title.equals(x.getTitle()))
+		            .findFirst().get().getSaleNumber();
+		}
+
+		public void addToBasket(String email, Integer saleNumber) {
+		    Seller b = db.find(Seller.class, email);
+		    b.getBasket().add(db.find(Sale.class, saleNumber));
+		    updateSeller(b);
+		}
+
+		public List<Sale> getBasket(String email) {
+		    Seller b = db.find(Seller.class, email);
+		    db.refresh(b);
+		    return b.getBasket();
+		}
+
+		public boolean removeSaleByNumber(Integer saleNumber) {
+		    Sale s = db.find(Sale.class, saleNumber);
+		    if (s == null) return false;
+		    db.getTransaction().begin();
+		    if (s.getSeller() != null) s.getSeller().removeSale(s);
+		    db.remove(s);
+		    db.getTransaction().commit();
+		    return true;
+		}
+		//addToBasket
+		
+		
 		public void updateSeller(Seller seller) {
 
 		    db.getTransaction().begin();
