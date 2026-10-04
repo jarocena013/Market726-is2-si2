@@ -214,6 +214,31 @@ public class TestDataAccess {
 
 		    return seller;
 		}
+		
+		public Seller addSellerWithSaleAndBid(String sellerMail, String sellerName, String sellerPass, String title, String description, int status, float price, Date pubDate, java.io.File file, String buyerMail, String bidStatus) {
+		    EntityManager db = emf.createEntityManager();
+		    db.getTransaction().begin();
+		    Seller seller = db.find(Seller.class, sellerMail);
+		    if (seller == null) {
+		        seller = new Seller(sellerMail, sellerName, sellerPass);
+		        db.persist(seller);
+		    }
+		    Sale sale = new Sale(title, description, status, price, pubDate, file, seller);
+		    seller.getSales().add(sale);
+
+		    domain.Bidalketa bid = new domain.Bidalketa();
+		    bid.setEgoera(bidStatus);
+
+		    sale.setBidalketa(bid);
+		    bid.setSale(sale);
+
+		    db.persist(sale);
+		    db.persist(bid);
+		    db.flush();
+		    db.getTransaction().commit();
+		    db.close();
+		    return seller;
+		}
 
 		
 }

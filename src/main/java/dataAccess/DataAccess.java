@@ -790,7 +790,7 @@ public class DataAccess {
         try {
             db.getTransaction().begin();
             Sale sale = db.find(Sale.class, saleNumber);
-            
+
             if (sale == null || sale.getBidalketa() == null || sale.getBidalketa().getEgoera().equals("JASOTA")) {
                 db.getTransaction().rollback();
                 return false;
@@ -802,15 +802,13 @@ public class DataAccess {
             Seller seller = sale.getSeller();
             seller.addMoney(sale.getPrice());
 
-           
             Mugimenduak mugimendu = new Mugimenduak("KOBRANTZA", new java.util.Date(), seller);
             mugimendu.setSale(sale);
             db.persist(mugimendu);
-            
 
             db.merge(b);
             db.merge(seller);
-            
+
             db.getTransaction().commit();
             return true;
         } catch (Exception e) {
