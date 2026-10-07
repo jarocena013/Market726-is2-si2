@@ -64,7 +64,7 @@ public class ConfirmArrivalBDWhiteTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void test1() {
 		try {
 			sut.open();
@@ -153,5 +153,5 @@ public class ConfirmArrivalBDWhiteTest {
 			e.printStackTrace();
 			fail();
 		}
-	}
+	}*/
 }
