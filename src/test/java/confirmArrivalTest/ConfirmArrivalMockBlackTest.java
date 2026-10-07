@@ -70,7 +70,7 @@ public class ConfirmArrivalMockBlackTest {
 		}
 	}
 
-	/*@Test
+	@Test
 	public void test1() {
 		Integer saleNumber = 1;
 		Seller seller = new Seller(sellerMail, sellerName, sellerPass);
@@ -91,7 +91,7 @@ public class ConfirmArrivalMockBlackTest {
 		assertEquals(20.0f, seller.getMoney(), 0.01);
 		verify(et).begin();
 		verify(et).commit();
-	}*/
+	}
 
 	@Test
 	public void test2() {

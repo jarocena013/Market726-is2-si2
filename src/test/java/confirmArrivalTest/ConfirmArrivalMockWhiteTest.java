@@ -70,7 +70,7 @@ public class ConfirmArrivalMockWhiteTest {
 		}
 	}
 
-	/*@Test
+	@Test
 	public void test1() {
 		try {
 			when(db.find(Sale.class, null)).thenThrow(new IllegalArgumentException());
@@ -142,5 +142,5 @@ public class ConfirmArrivalMockWhiteTest {
 		assertEquals(20.0f, seller.getMoney(), 0.01);
 		verify(et).begin();
 		verify(et).commit();
-	}*/
+	}
 }
