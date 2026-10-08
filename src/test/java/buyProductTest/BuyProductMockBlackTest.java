@@ -95,7 +95,7 @@ public class BuyProductMockBlackTest {
 	/*
 	 * Erosketa ongi burutzen da
 	 */
-	/*
+	
 	@Test
 	public void test1() {
 
@@ -118,7 +118,7 @@ public class BuyProductMockBlackTest {
 		assertTrue(result);
 		assertEquals(20, buyer.getMoney(), 0.01);
 	}
-*/
+
 	/*
 	 * Erosleak ez du diru nahikorik
 	 */

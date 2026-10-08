@@ -214,7 +214,7 @@ public class BuyProductMockWhiteTest {
 	}
 
 	// Erosketa zuzen burutzen da.
-	/*
+
 	@Test
 	public void test6() {
 
@@ -239,5 +239,5 @@ public class BuyProductMockWhiteTest {
 		assertEquals(buyer, sale.getBuyer());
 		assertTrue(buyer.getPurchasedSales().contains(sale));
 	}
-*/
+
 }
