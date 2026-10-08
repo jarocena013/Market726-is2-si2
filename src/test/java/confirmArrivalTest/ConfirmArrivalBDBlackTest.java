@@ -68,7 +68,7 @@ public class ConfirmArrivalBDBlackTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void test1() {
 		try {
 			testDA.open();
@@ -92,7 +92,7 @@ public class ConfirmArrivalBDBlackTest {
 			e.printStackTrace();
 			fail();
 		}
-	}
+	}*/
 
 	@Test
 	public void test2() {

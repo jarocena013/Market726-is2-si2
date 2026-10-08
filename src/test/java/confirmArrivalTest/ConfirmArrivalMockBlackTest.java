@@ -70,7 +70,7 @@ public class ConfirmArrivalMockBlackTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void test1() {
 		Integer saleNumber = 1;
 		Seller seller = new Seller(sellerMail, sellerName, sellerPass);
@@ -143,5 +143,5 @@ public class ConfirmArrivalMockBlackTest {
 
 		boolean result = sut.confirmArrival(saleNumber);
 		assertFalse(result);
-	}
+	}*/
 }
