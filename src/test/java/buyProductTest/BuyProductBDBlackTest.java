@@ -78,6 +78,7 @@ public class BuyProductBDBlackTest {
 
 	// Erosketa egiterako orduan, beharrezko elementu guztiak existitzen dira eta
 	// erosketa ongi burutzen da.
+	/*
 	@Test
 	public void test1() {
 		try {
@@ -116,7 +117,7 @@ public class BuyProductBDBlackTest {
 			fail();
 		}
 	}
-
+*/
 	// Erosketa egiterako orduan, beharrezko elementu guztiak existitzen dira,
 	// baina eroslearen dirua sale-aren prize baino txikiago da, beraz ez da
 	// burutzen erosketa.

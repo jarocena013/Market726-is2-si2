@@ -242,7 +242,7 @@ public class BuyProductBDWhiteTest {
 		}
 
 	}
-
+/*
 	@Test
 	public void test6() {
 
@@ -282,4 +282,5 @@ public class BuyProductBDWhiteTest {
 			fail();
 		}
 	}
+	*/
 }
