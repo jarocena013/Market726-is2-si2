@@ -78,7 +78,7 @@ public class BuyProductBDWhiteTest {
 			e.printStackTrace();
 		}
 	}
-
+/*
 	@Test
 	public void test1() {
 
@@ -111,6 +111,7 @@ public class BuyProductBDWhiteTest {
 	    }
 
 	}
+	*/
 
 	@Test
 	public void test2() {

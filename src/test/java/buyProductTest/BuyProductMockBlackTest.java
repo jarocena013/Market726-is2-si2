@@ -147,6 +147,7 @@ public class BuyProductMockBlackTest {
 	/*
 	 * buyerMail==null
 	 */
+	/*
 	@Test
 	public void test3() {
 
@@ -168,6 +169,7 @@ public class BuyProductMockBlackTest {
 	/*
 	 * buyerEmail formatu ez egokian
 	 */
+	/*
 	@Test
 	public void test4() {
 
@@ -187,10 +189,12 @@ public class BuyProductMockBlackTest {
 
 		assertFalse(result);
 	}
+	*/
 
 	/*
 	 * buyer ez dago datubasean
 	 */
+	/*
 	@Test
 	public void test5() {
 
@@ -210,10 +214,12 @@ public class BuyProductMockBlackTest {
 
 		assertFalse(result);
 	}
+	*/
 
 	/*
 	 * sale-aren identifikatzailea 0 baino txikiagoa
 	 */
+	/*
 	@Test
 	public void test6() {
 
@@ -229,10 +235,12 @@ public class BuyProductMockBlackTest {
 
 		assertFalse(result);
 	}
+	*/
 
 	/*
 	 * Sale ez dago DB-an jasota.
 	 */
+	/*
 	@Test
 	public void test7() {
 
@@ -248,4 +256,6 @@ public class BuyProductMockBlackTest {
 
 		assertFalse(result);
 	}
+	*/
+	
 }

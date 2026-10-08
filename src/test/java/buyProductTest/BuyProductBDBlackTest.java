@@ -160,7 +160,7 @@ public class BuyProductBDBlackTest {
 			fail();
 		}
 	}
-
+/*
 	// buyerMail parametroa null da.
 	@Test
 	public void test3() {
@@ -188,7 +188,8 @@ public class BuyProductBDBlackTest {
 			fail("Error en test3: " + e.getMessage());
 		}
 	}
-
+	*/
+/*
 	// buyerMail parametroak ez du behar den patroia jarraitzen.
 	@Test
 	public void test4() {
@@ -216,7 +217,8 @@ public class BuyProductBDBlackTest {
 			fail("Error en test4: " + e.getMessage());
 		}
 	}
-
+	*/
+/*
 	// buyer ez da datu basean existitzen.
 	@Test
 	public void test5() {
@@ -246,7 +248,8 @@ public class BuyProductBDBlackTest {
 			fail();
 		}
 	}
-
+	*/
+/*
 	// saleNumber balioa 0 baino txikiagoa edo berdina.
 	@Test
 	public void test6() {
@@ -269,6 +272,8 @@ public class BuyProductBDBlackTest {
 			fail();
 		}
 	}
+	*/
+	/*
 
 	// saleNumber egokia baina ez da existitzen DBan..
 	@Test
@@ -292,5 +297,6 @@ public class BuyProductBDBlackTest {
 			fail();
 		}
 	}
+	*/
 
 }

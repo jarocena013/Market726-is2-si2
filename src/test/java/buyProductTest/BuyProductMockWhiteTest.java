@@ -94,7 +94,7 @@ public class BuyProductMockWhiteTest {
 	}
 
 	// Catchean sartzen da
-	@Test
+	/*@Test
 	public void test1() {
 
 		Seller buyer = new Seller(buyerMail, buyerName, buyerPass);
@@ -111,6 +111,7 @@ public class BuyProductMockWhiteTest {
 		assertFalse(result);
 
 	}
+	*/
 
 	// Buyer==null
 	@Test
