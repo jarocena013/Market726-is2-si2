@@ -268,23 +268,7 @@ public class DataAccess {
                 return false; 
             }
             
-            buyer.addMoney(-price);
-            sale.setBuyer(buyer); 
-            buyer.addPurchasedSale(sale); 
-            
-            Bidalketa bidalketa = new Bidalketa(sale);
-            sale.setBidalketa(bidalketa);
-            
-            db.persist(bidalketa);
-
-            // --- NUEVO BLOQUE MUGIMENDUAK ---
-            Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
-            mugimendu.setSale(sale);
-            db.persist(mugimendu);
-            // --------------------------------
-
-            db.merge(sale);
-            db.merge(buyer);
+            erosketaBukatu(buyer, sale, price);
             
             db.getTransaction().commit();
             return true;
@@ -294,6 +278,26 @@ public class DataAccess {
             return false;
         }
     }
+
+	private void erosketaBukatu(Seller buyer, Sale sale, float price) {
+		buyer.addMoney(-price);
+		sale.setBuyer(buyer); 
+		buyer.addPurchasedSale(sale); 
+		
+		Bidalketa bidalketa = new Bidalketa(sale);
+		sale.setBidalketa(bidalketa);
+		
+		db.persist(bidalketa);
+
+		// --- NUEVO BLOQUE MUGIMENDUAK ---
+		Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
+		mugimendu.setSale(sale);
+		db.persist(mugimendu);
+		// --------------------------------
+
+		db.merge(sale);
+		db.merge(buyer);
+	}
     
     
     public List<Sale> getPurchasedItems(String email) {
