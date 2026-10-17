@@ -57,44 +57,41 @@ public class MainGUIErregistratua extends JFrame {
         super();
 
         this.sellerMail=mail;
-        
-        this.setSize(495, 450);
-        jLabelSelectOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.SelectOption"));
-        jLabelSelectOption.setFont(new Font("Tahoma", Font.BOLD, 13));
-        jLabelSelectOption.setForeground(Color.BLACK);
-        jLabelSelectOption.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        rdbtnNewRadioButton = new JRadioButton("English");
-        rdbtnNewRadioButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Locale.setDefault(new Locale("en"));
-                paintAgain();               
-            }
-        });
-        buttonGroup.add(rdbtnNewRadioButton);
-        
-        rdbtnNewRadioButton_1 = new JRadioButton("Euskara");
-        rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                Locale.setDefault(new Locale("eus"));
-                paintAgain();               
-            }
-        });
-        buttonGroup.add(rdbtnNewRadioButton_1);
-        
-        rdbtnNewRadioButton_2 = new JRadioButton("Castellano");
-        rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Locale.setDefault(new Locale("es"));
-                paintAgain();
-            }
-        });
-        buttonGroup.add(rdbtnNewRadioButton_2);
-    
-        panel = new JPanel();
-        panel.add(rdbtnNewRadioButton_1);
-        panel.add(rdbtnNewRadioButton_2);
-        panel.add(rdbtnNewRadioButton);
+        this.setSize(495, 290);
+		jLabelSelectOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.SelectOption"));
+		jLabelSelectOption.setFont(new Font("Tahoma", Font.BOLD, 13));
+		jLabelSelectOption.setForeground(Color.BLACK);
+		jLabelSelectOption.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		rdbtnNewRadioButton = new JRadioButton("English");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Locale.setDefault(new Locale("en"));
+				paintAgain();				}
+		});
+		buttonGroup.add(rdbtnNewRadioButton);
+		
+		rdbtnNewRadioButton_1 = new JRadioButton("Euskara");
+		rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Locale.setDefault(new Locale("eus"));
+				paintAgain();				}
+		});
+		buttonGroup.add(rdbtnNewRadioButton_1);
+		
+		rdbtnNewRadioButton_2 = new JRadioButton("Castellano");
+		rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Locale.setDefault(new Locale("es"));
+				paintAgain();
+			}
+		});
+		buttonGroup.add(rdbtnNewRadioButton_2);
+	
+		panel = new JPanel();
+		panel.add(rdbtnNewRadioButton_1);
+		panel.add(rdbtnNewRadioButton_2);
+		panel.add(rdbtnNewRadioButton);
         
         jButtonCreateQuery = new JButton();
         jButtonCreateQuery.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.CreateSale"));

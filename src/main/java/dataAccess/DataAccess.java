@@ -123,28 +123,28 @@ public class DataAccess {
         }
     }
     
-    public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException, ParamNullException {
-        System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
-        if (title==null || description==null || pubDate==null || sellerEmail==null) {
+    public Sale createSale(CreateSaleParameter createSaleObject) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException, ParamNullException {
+        System.out.println(">> DataAccess: createProduct=> title= "+createSaleObject.title+" seller="+createSaleObject.sellerEmail);
+        if (createSaleObject.title==null || createSaleObject.description==null || createSaleObject.pubDate==null || createSaleObject.sellerEmail==null) {
         	throw new ParamNullException("Param null");
         }
 			
         try {
-            if(pubDate.before(UtilDate.trim(new Date()))) {
+            if(createSaleObject.pubDate.before(UtilDate.trim(new Date()))) {
                 throw new MustBeLaterThanTodayException("later than today");
             }
-            if (file==null)
+            if (createSaleObject.file==null)
                 throw new FileNotUploadedException("file not find");
 
             db.getTransaction().begin();
             
-            Seller seller = db.find(Seller.class, sellerEmail);
-            if (seller.doesSaleExist(title)) {
+            Seller seller = db.find(Seller.class, createSaleObject.sellerEmail);
+            if (seller.doesSaleExist(createSaleObject.title)) {
                 db.getTransaction().commit();
                 throw new SaleAlreadyExistException("sale already exist");
             }
 
-            Sale sale = seller.addSale(title, description, status, price, pubDate, file);
+            Sale sale = seller.addSale(createSaleObject.title, createSaleObject.description, createSaleObject.status, createSaleObject.price, createSaleObject.pubDate, createSaleObject.file);
             
             db.persist(seller); 
             db.getTransaction().commit();
@@ -410,19 +410,10 @@ public class DataAccess {
             
             sale.getSalaketak().removeIf(s -> s.getId() == salaketa.getId());
 
-            Salaketa s = db.find(Salaketa.class, salaketa.getId());
-            if (s != null) {
-                s.setTratatuta(true);
-                db.merge(s);
-            }
+            tratatutaEzarri(salaketa);
            
             if (aceptar) {
-                Seller owner = sale.getSeller();
-                if (owner != null) {
-                    owner.removeSale(sale);
-                    db.merge(owner);
-                }
-                db.remove(sale);
+                reportedSaleEzabatu(sale);
             } else {
                 db.merge(sale);
             }
@@ -436,6 +427,23 @@ public class DataAccess {
             return false;
         }
     }
+
+	private void reportedSaleEzabatu(Sale sale) {
+		Seller owner = sale.getSeller();
+		if (owner != null) {
+		    owner.removeSale(sale);
+		    db.merge(owner);
+            db.remove(sale);
+		}
+	}
+
+	private void tratatutaEzarri(Salaketa salaketa) {
+		Salaketa s = db.find(Salaketa.class, salaketa.getId());
+		if (s != null) {
+		    s.setTratatuta(true);
+		    db.merge(s);
+		}
+	}
 
     public boolean addErreklamazioa(Integer saleNumber, String reason, String buyerEmail) {
         try {

@@ -21,6 +21,7 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import dataAccess.CreateSaleParameter;
 import dataAccess.DataAccess;
 import domain.Sale;
 import domain.Seller;
@@ -94,7 +95,7 @@ public class CreateSaleMockWhiteTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			sut.createSale(title, description, status, price, pubDate, sellerMail, null);
+			sut.createSale(new CreateSaleParameter(title, description, status, price, pubDate, sellerMail, null));
 			sut.close();			
 			fail("The sale must not be created");
 			
@@ -118,7 +119,7 @@ public class CreateSaleMockWhiteTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			Sale s=sut.createSale(title, description, status, price, pubDate, sellerMail, null);
+			Sale s=sut.createSale(new CreateSaleParameter(title, description, status, price, pubDate, sellerMail, null));
 			sut.close();
 			//sale is not created
 			assertTrue(s==null);
@@ -149,7 +150,7 @@ public class CreateSaleMockWhiteTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			sut.createSale(title, description, status, price, pubDate, sellerMail, null);
+			sut.createSale(new CreateSaleParameter(title, description, status, price, pubDate, sellerMail, null));
 			sut.close();
 			
 			} catch ( MustBeLaterThanTodayException e ) { 
@@ -178,7 +179,7 @@ public class CreateSaleMockWhiteTest {
 		try {	
 			//verify the results
 			sut.open();
-			sut.createSale(title, description, status, price, pubDate, sellerMail, null);
+			sut.createSale(new CreateSaleParameter(title, description, status, price, pubDate, sellerMail, null));
 			sut.close();
 			fail();
 			
@@ -207,7 +208,7 @@ public class CreateSaleMockWhiteTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			Sale sale=sut.createSale(title, description, status, price, pubDate, sellerMail, null);
+			Sale sale=sut.createSale(new CreateSaleParameter(title, description, status, price, pubDate, sellerMail, null));
 			sut.close();			
 			//verify the results
 			assertNotNull(sale);
