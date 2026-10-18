@@ -294,9 +294,7 @@ public class DataAccess {
 		db.persist(bidalketa);
 
 		// --- NUEVO BLOQUE MUGIMENDUAK ---
-		Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
-		mugimendu.setSale(sale);
-		db.persist(mugimendu);
+		erregistratuMugimendua(sale,buyer,"EROSKETA");
 		// --------------------------------
 
 		db.merge(sale);
@@ -323,27 +321,33 @@ public class DataAccess {
         try {
             db.getTransaction().begin();
             Seller s = db.find(Seller.class, email);
-            if (s == null || zenbat <= 0) {
-                db.getTransaction().rollback();
-                return false;
-            }
-
-            s.addMoney(zenbat);
-
-            // --- NUEVO BLOQUE MUGIMENDUAK (CORREGIDO) ---
-            Mugimenduak mugimendu = new Mugimenduak("DIRU_SARRERA", new java.util.Date(), s);
-            db.persist(mugimendu);
-            // --------------------------------------------
-
-            db.merge(s);
-            db.getTransaction().commit();
-            return true;
+            boolean ondo = s !=null && zenbat >0;
+            if (ondo) diruaSartu(zenbat, s);
+           
+            return amaituTransakzioa(ondo);
 
         } catch (Exception e) {
             e.printStackTrace();
-            db.getTransaction().rollback();
+            itzuliRollback();
             return false;
         }
+    }
+
+	private void diruaSartu(float zenbat, Seller s) {
+		s.addMoney(zenbat);
+
+		// --- NUEVO BLOQUE MUGIMENDUAK (CORREGIDO) ---
+		Mugimenduak mugimendu = new Mugimenduak("DIRU_SARRERA", new java.util.Date(), s);
+		db.persist(mugimendu);
+		// --------------------------------------------
+
+		db.merge(s);
+	}
+    
+    private boolean amaituTransakzioa(boolean ondo) {
+        if (ondo) db.getTransaction().commit();
+        else itzuliRollback();
+        return ondo;
     }
     
     public float getMoney(String email) {
@@ -495,13 +499,9 @@ public class DataAccess {
                     seller.addMoney(-sale.getPrice()); 
 
                    
-                    Mugimenduak mBuyer = new Mugimenduak("ITZULKETA", new java.util.Date(), buyer);
-                    mBuyer.setSale(sale);
-                    db.persist(mBuyer);
+                    erregistratuMugimendua(sale,seller,"ITZULKETA");
                     
-                    Mugimenduak mSeller = new Mugimenduak("ITZULKETA_KENTZEA", new java.util.Date(), seller);
-                    mSeller.setSale(sale);
-                    db.persist(mSeller);
+                    erregistratuMugimendua(sale,seller,"ITZULKETA_KENTZEA");
                     
                  
                     buyer.getPurchasedSales().remove(sale);
@@ -676,9 +676,7 @@ public class DataAccess {
                 db.persist(bidalketa);
 
                
-                Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
-                mugimendu.setSale(s);
-                db.persist(mugimendu);
+                erregistratuMugimendua(s,seller,"EROSKETA");
                 
                 db.merge(s);
             }
@@ -731,7 +729,7 @@ public class DataAccess {
             Eskaera eskaera = db.find(Eskaera.class, eskaeraId);
             Seller seller = db.find(Seller.class, sellerEmail);
             
-            if (eskaera == null || seller == null || eskaera.isClosed() || eskaera.getBuyer().getEmail().equals(sellerEmail)) {
+            if (eskaintzaBaliogabeaDa(sellerEmail, eskaera, seller)) {
                 db.getTransaction().rollback();
                 return false;
             }
@@ -750,6 +748,10 @@ public class DataAccess {
             return false;
         }
     }
+
+	private boolean eskaintzaBaliogabeaDa(String sellerEmail, Eskaera eskaera, Seller seller) {
+		return eskaera == null || seller == null || eskaera.isClosed() || eskaera.getBuyer().getEmail().equals(sellerEmail);
+	}
 
     public boolean acceptEskaintza(Integer eskaeraId, Integer eskaintzaId) {
         try {
@@ -831,9 +833,7 @@ public class DataAccess {
             Seller seller = sale.getSeller();
             seller.addMoney(sale.getPrice());
 
-            Mugimenduak mugimendu = new Mugimenduak("KOBRANTZA", new java.util.Date(), seller);
-            mugimendu.setSale(sale);
-            db.persist(mugimendu);
+            erregistratuMugimendua(sale, seller, "KOBRANTZA");
 
             db.merge(b);
             db.merge(seller);
@@ -846,6 +846,12 @@ public class DataAccess {
             return false;
         }
     }
+
+	private void erregistratuMugimendua(Sale sale, Seller seller, String mota) {
+		Mugimenduak mugimendu = new Mugimenduak(mota, new java.util.Date(), seller);
+		mugimendu.setSale(sale);
+		db.persist(mugimendu);
+	}
     
     //Kode errepikatua saihesteko metodoak
     private boolean balidatuErabiltzailea(Seller buyer) {
