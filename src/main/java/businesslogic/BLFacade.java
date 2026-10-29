@@ -95,5 +95,5 @@ public interface BLFacade  {
     @WebMethod public boolean addEskaintza(Integer eskaeraId, String sellerEmail, float price, String message);
     @WebMethod public boolean acceptEskaintza(Integer eskaeraId, Integer eskaintzaId);
     @WebMethod public boolean confirmArrival(Integer saleNumber);
-    @WebMethod public	ExtendedIterator<Sale>	getSalesIterator(String	desc); 
+    @WebMethod public	ExtendedIterator<Sale>	getSalesIterator(String desc); 
 }

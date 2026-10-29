@@ -1,5 +1,6 @@
 package businesslogic;
 import java.io.File;
+
 import java.util.logging.Logger;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;
-import iterator.ExtendedIterator;
+import iterator.*;
 
 import java.awt.image.BufferedImage;
 import java.awt.Image;
@@ -292,8 +293,11 @@ public class BLFacadeImplementation  implements BLFacade {
 
 	@Override
 	public ExtendedIterator<Sale> getSalesIterator(String desc) {
-		// TODO Auto-generated method stub
-		return null;
+		dbManager.open();
+		List<Sale> sales=dbManager.getSales(desc);
+		dbManager.close();
+		ExtendedIterator<Sale> saleiterator= new SaleExtendedIterator(sales);
+		return saleiterator;
 	}
     
 }
