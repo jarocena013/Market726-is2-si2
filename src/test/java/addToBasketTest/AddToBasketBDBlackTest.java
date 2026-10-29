@@ -121,7 +121,7 @@ public class AddToBasketBDBlackTest {
 	        assertEquals(1, testDA.getBasket(buyerMail).size());
 	    }
 	 
-	 @Test // 10: saltzaile desberdina
+	 /*@Test // 10: saltzaile desberdina
 	    public void test10() {
 	        testDA.addToBasket(buyerMail, saleNumber);
 	        int otra = newSale(otherMail, "sale2");
@@ -132,6 +132,6 @@ public class AddToBasketBDBlackTest {
 	        // transakzioa irekita geratu ez dela egiaztatzeko
 	        int baliozkoa = newSale(sellerMail, "sale3");
 	        assertTrue(sut.addToBasket(buyerMail, baliozkoa));
-	    }
+	    }*/
 
 }

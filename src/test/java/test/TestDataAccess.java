@@ -1,6 +1,5 @@
 package test;
 
-
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,47 +11,37 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import configuration.ConfigXML;
+import domain.AddSaleParameter;
 import domain.Sale;
 import domain.Seller;
 
-
 public class TestDataAccess {
-	protected  EntityManager  db;
-	protected  EntityManagerFactory emf;
+	protected EntityManager db;
+	protected EntityManagerFactory emf;
 
-	ConfigXML  c=ConfigXML.getInstance();
+	ConfigXML c = ConfigXML.getInstance();
 
-
-	public TestDataAccess()  {
-		
+	public TestDataAccess() {
 		System.out.println("TestDataAccess created");
-
-		//open();
-		
 	}
 
-	
-	public void open(){
-		
-
-		String fileName=c.getDbFilename();
+	public void open() {
+		String fileName = c.getDbFilename();
 		
 		if (c.isDatabaseLocal()) {
-			  emf = Persistence.createEntityManagerFactory("objectdb:"+fileName);
-			  db = emf.createEntityManager();
+			emf = Persistence.createEntityManagerFactory("objectdb:"+fileName);
+			db = emf.createEntityManager();
 		} else {
 			Map<String, String> properties = new HashMap<String, String>();
-			  properties.put("javax.persistence.jdbc.user", c.getUser());
-			  properties.put("javax.persistence.jdbc.password", c.getPassword());
+			properties.put("javax.persistence.jdbc.user", c.getUser());
+			properties.put("javax.persistence.jdbc.password", c.getPassword());
 
-			  emf = Persistence.createEntityManagerFactory("objectdb://"+c.getDatabaseNode()+":"+c.getDatabasePort()+"/"+fileName, properties);
-
-			  db = emf.createEntityManager();
-    	   }
+			emf = Persistence.createEntityManagerFactory("objectdb://"+c.getDatabaseNode()+":"+c.getDatabasePort()+"/"+fileName, properties);
+			db = emf.createEntityManager();
+   	   }
 		System.out.println("TestDataAccess opened");
-
-		
 	}
+
 	public void close(){
 		db.close();
 		System.out.println("TestDataAccess closed");
@@ -69,6 +58,7 @@ public class TestDataAccess {
 		} else 
 		return false;
     }
+
 	public Seller createSeller(String email, String name, String pass) {
 		System.out.println(">> TestDataAccess: addSeller");
 		Seller seller=null;
@@ -83,34 +73,35 @@ public class TestDataAccess {
 			}
 			return seller;
     }
-	public boolean existSeller(String email) {
-		 return  db.find(Seller.class, email)!=null;
-		 
 
+	public boolean existSeller(String email) {
+		 return db.find(Seller.class, email)!=null;
 	}
 		
-		public Seller addSellerWithSale(String email, String sellerName,String pass, String title, String description, int status, float price,  Date pubDate, File file) {
-			System.out.println(">> TestDataAccess: addSellerWithSale");
-				Seller seller=null;
-				db.getTransaction().begin();
-				try {
-					seller = db.find(Seller.class, email);
-					if (seller==null) {
-						seller=new Seller(email, sellerName,pass);
-				    	db.persist(seller);
-					}
-					seller.addSale(title, description, status, price, pubDate, file);
-					db.getTransaction().commit();
-					System.out.println("Seller created "+seller);
-					
-					return seller;
-					
+	public Seller addSellerWithSale(String email, String sellerName, String pass, String title, String description, int status, float price, Date pubDate, File file) {
+		System.out.println(">> TestDataAccess: addSellerWithSale");
+			Seller seller=null;
+			db.getTransaction().begin();
+			try {
+				seller = db.find(Seller.class, email);
+				if (seller==null) {
+					seller=new Seller(email, sellerName,pass);
+			    	db.persist(seller);
 				}
-				catch (Exception e){
-					e.printStackTrace();
-				}
-				return null;
-	    }
+				
+				// CORREGIDO: Usamos AddSaleParameter
+				seller.addSale(new AddSaleParameter(title, description, status, price, pubDate, file));
+				
+				db.getTransaction().commit();
+				System.out.println("Seller created "+seller);
+				
+				return seller;
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+			return null;
+    }
 		
 	public boolean existSale(String sellerEmail, String title) {
 			System.out.println(">> TestDataAccess: existSale");
@@ -121,124 +112,114 @@ public class TestDataAccess {
 			return false;
 		}
 	
-		public boolean removeSale(String sellerEmail, String title, String description, int status, float price, Date pubDate, File file ) {
-			System.out.println(">> TestDataAccess: removeRide");
-			Seller s = db.find(Seller.class, sellerEmail);
-			if (s!=null) {
-				db.getTransaction().begin();
-				Sale sale1= new Sale(title, description,status,price,pubDate,file,s);
-				boolean b= s.removeSale(sale1);
-				db.getTransaction().commit();
-				return b;
+	public boolean removeSale(String sellerEmail, String title, String description, int status, float price, Date pubDate, File file ) {
+		System.out.println(">> TestDataAccess: removeRide");
+		Seller s = db.find(Seller.class, sellerEmail);
+		if (s!=null) {
+			db.getTransaction().begin();
+			Sale sale1= new Sale(title, description,status,price,pubDate,file,s);
+			boolean b= s.removeSale(sale1);
+			db.getTransaction().commit();
+			return b;
+		} else 
+		return false;
+	}
 
-			} else 
-			return false;
+	public Integer createSale(String email, String title) {
+	    Seller s = addSellerWithSale(email, "name", "pass", title, "desc",
+	                                 1, 10f, new Date(), null);
+	    return s.getSales().stream()
+	            .filter(x -> title.equals(x.getTitle()))
+	            .findFirst().get().getSaleNumber();
+	}
 
-		}
-		//addToBasket
-		public Integer createSale(String email, String title) {
-		    Seller s = addSellerWithSale(email, "name", "pass", title, "desc",
-		                                 1, 10f, new Date(), null);
-		    return s.getSales().stream()
-		            .filter(x -> title.equals(x.getTitle()))
-		            .findFirst().get().getSaleNumber();
-		}
+	public void addToBasket(String email, Integer saleNumber) {
+	    Seller b = db.find(Seller.class, email);
+	    b.getBasket().add(db.find(Sale.class, saleNumber));
+	    updateSeller(b);
+	}
 
-		public void addToBasket(String email, Integer saleNumber) {
-		    Seller b = db.find(Seller.class, email);
-		    b.getBasket().add(db.find(Sale.class, saleNumber));
-		    updateSeller(b);
-		}
+	public List<Sale> getBasket(String email) {
+	    Seller b = db.find(Seller.class, email);
+	    db.refresh(b);
+	    return b.getBasket();
+	}
 
-		public List<Sale> getBasket(String email) {
-		    Seller b = db.find(Seller.class, email);
-		    db.refresh(b);
-		    return b.getBasket();
-		}
+	public boolean removeSaleByNumber(Integer saleNumber) {
+	    Sale s = db.find(Sale.class, saleNumber);
+	    if (s == null) return false;
+	    db.getTransaction().begin();
+	    if (s.getSeller() != null) s.getSeller().removeSale(s);
+	    db.remove(s);
+	    db.getTransaction().commit();
+	    return true;
+	}
+	
+	public void updateSeller(Seller seller) {
+	    if (!db.getTransaction().isActive()) {
+	        db.getTransaction().begin();
+	    }
+	    Seller managedSeller = db.merge(seller);
+	    db.getTransaction().commit();
+	    db.refresh(managedSeller);
+	}
 
-		public boolean removeSaleByNumber(Integer saleNumber) {
-		    Sale s = db.find(Sale.class, saleNumber);
-		    if (s == null) return false;
-		    db.getTransaction().begin();
-		    if (s.getSeller() != null) s.getSeller().removeSale(s);
-		    db.remove(s);
-		    db.getTransaction().commit();
-		    return true;
-		}
-		//addToBasket
-		
-		
-		public void updateSeller(Seller seller) {
+	public void updateSale(Sale sale) {
+	    if (!db.getTransaction().isActive()) {
+	        db.getTransaction().begin();
+	    }
+	    Sale managedSale = db.merge(sale);
+	    db.getTransaction().commit();
+	    db.refresh(managedSale);
+	}
 
-		    db.getTransaction().begin();
+	public Seller findSeller(String email) {
+	    return db.find(Seller.class, email);
+	}
 
-		    db.merge(seller);
+	public Sale findSale(Integer saleNumber) {
+	    return db.find(Sale.class, saleNumber);
+	}
 
-		    db.getTransaction().commit();
-		}
-		public void updateSale(Sale sale) {
+	public Seller createSellerWithMoney(String email, String name, String pass, float money) {
+	    Seller seller = null;
+	    db.getTransaction().begin();
+	    try {
+	        seller = new Seller(email, name, pass);
+	        seller.setMoney(money);
+	        db.persist(seller);
+	        db.getTransaction().commit();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        if (db.getTransaction().isActive()) {
+	            db.getTransaction().rollback();
+	        }
+	    }
+	    return seller;
+	}
+	
+	public Seller addSellerWithSaleAndBid(String sellerMail, String sellerName, String sellerPass, String title, String description, int status, float price, Date pubDate, java.io.File file, String buyerMail, String bidStatus) {
+	    EntityManager db = emf.createEntityManager();
+	    db.getTransaction().begin();
+	    Seller seller = db.find(Seller.class, sellerMail);
+	    if (seller == null) {
+	        seller = new Seller(sellerMail, sellerName, sellerPass);
+	        db.persist(seller);
+	    }
+	    Sale sale = new Sale(title, description, status, price, pubDate, file, seller);
+	    seller.getSales().add(sale);
 
-		    db.getTransaction().begin();
+	    domain.Bidalketa bid = new domain.Bidalketa();
+	    bid.setEgoera(bidStatus);
 
-		    db.merge(sale);
+	    sale.setBidalketa(bid);
+	    bid.setSale(sale);
 
-		    db.getTransaction().commit();
-		}
-		public Seller findSeller(String email) {
-		    return db.find(Seller.class, email);
-		}
-		public Sale findSale(Integer saleNumber) {
-		    return db.find(Sale.class, saleNumber);
-		}
-		public Seller createSellerWithMoney(String email, String name, String pass, float money) {
-
-		    Seller seller = null;
-
-		    db.getTransaction().begin();
-
-		    try {
-		        seller = new Seller(email, name, pass);
-		        seller.setMoney(money);
-
-		        db.persist(seller);
-
-		        db.getTransaction().commit();
-
-		    } catch (Exception e) {
-		        e.printStackTrace();
-
-		        if (db.getTransaction().isActive()) {
-		            db.getTransaction().rollback();
-		        }
-		    }
-
-		    return seller;
-		}
-		
-		public Seller addSellerWithSaleAndBid(String sellerMail, String sellerName, String sellerPass, String title, String description, int status, float price, Date pubDate, java.io.File file, String buyerMail, String bidStatus) {
-		    EntityManager db = emf.createEntityManager();
-		    db.getTransaction().begin();
-		    Seller seller = db.find(Seller.class, sellerMail);
-		    if (seller == null) {
-		        seller = new Seller(sellerMail, sellerName, sellerPass);
-		        db.persist(seller);
-		    }
-		    Sale sale = new Sale(title, description, status, price, pubDate, file, seller);
-		    seller.getSales().add(sale);
-
-		    domain.Bidalketa bid = new domain.Bidalketa();
-		    bid.setEgoera(bidStatus);
-
-		    sale.setBidalketa(bid);
-		    bid.setSale(sale);
-
-		    db.persist(sale);
-		    db.persist(bid);
-		    db.flush();
-		    db.getTransaction().commit();
-		    db.close();
-		    return seller;
-		}
-
-		
+	    db.persist(sale);
+	    db.persist(bid);
+	    db.flush();
+	    db.getTransaction().commit();
+	    db.close();
+	    return seller;
+	}
 }
