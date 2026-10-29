@@ -18,6 +18,7 @@ import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.ParamNullException;
 import exceptions.SaleAlreadyExistException;
+import iterator.ExtendedIterator;
 
 import java.awt.image.BufferedImage;
 import java.awt.Image;
@@ -288,6 +289,12 @@ public class BLFacadeImplementation  implements BLFacade {
         dbManager.close();
         return ok;
     }
+
+	@Override
+	public ExtendedIterator<Sale> getSalesIterator(String desc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }
 
